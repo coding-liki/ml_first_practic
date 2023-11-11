@@ -10,17 +10,26 @@ def read_csv(path: str):
 
 
 class Data:
+    feature_names: list = []
     train_features: np.ndarray = []
     train_labels: list = []
 
     test_features: np.ndarray = []
     test_labels: list = []
 
-    def __init__(self, train_features: np.ndarray, train_labels: list, test_features: np.ndarray, test_labels: list):
+    def __init__(
+            self,
+            train_features: np.ndarray,
+            train_labels: list,
+            test_features: np.ndarray,
+            test_labels: list,
+            feature_names: list
+    ):
         self.train_features = train_features
         self.train_labels = train_labels
         self.test_features = test_features
         self.test_labels = test_labels
+        self.feature_names = feature_names
 
 
 class DataFetcher:
@@ -48,5 +57,5 @@ class DataFetcher:
         test_features = test_data.values[:, :-2]
         test_labels = test_data['Activity'].map(label_map).values
 
-        self.data = Data(train_features, train_labels, test_features, test_labels)
+        self.data = Data(train_features, train_labels, test_features, test_labels, test_data.columns[:-2])
         pass

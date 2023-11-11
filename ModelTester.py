@@ -14,6 +14,9 @@ class Model(Protocol):
     def predict(self, x) -> np.ndarray:
         pass
 
+    def get_params(self, deep=True) -> dict:
+        pass
+
 
 class ModelTester:
     model: Model = None
@@ -22,12 +25,11 @@ class ModelTester:
         self.model = model
 
     def test(self, data: Data):
+        print(self.model.get_params())
         self.model.fit(data.train_features, data.train_labels)
-        print(len(data.test_features))
 
         test_result = self.model.predict(data.test_features)
-        print(len(test_result))
         target_names = ['Walking', 'Walking Upstairs', 'Walking Downstairs', 'Sitting', 'Standing', 'Laying']
 
-        print(classification_report(data.test_labels, test_result, target_names=target_names))
+        print(classification_report(data.test_labels, test_result, target_names=target_names, zero_division=0))
         pass
